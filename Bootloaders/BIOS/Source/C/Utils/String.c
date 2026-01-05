@@ -21,3 +21,24 @@ VOID StringSet(VOID *dest, BYTE value, DWORD count)
         ptr[i] = value;
     }
 }
+
+VOID StringCopy(CHAR *dest, const CHAR *src, DWORD count)
+{
+    for (DWORD i = 0; i < count; i++)
+    {
+        dest[i] = src[i];
+    }
+}
+
+BOOL StringCompare(const CHAR *first, const CHAR *second, DWORD count)
+{
+    for (DWORD i = 0; i < count; i++)
+    {
+        if (first[i] != second[i])
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
