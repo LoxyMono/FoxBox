@@ -1,1 +1,0 @@
---kernel Kernel/FoxKrnl --ramdisk none --arch i386 --display recommended
