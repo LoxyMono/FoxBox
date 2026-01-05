@@ -1,5 +1,7 @@
 #include <Video/VGA.h>
 
+#include <stdarg.h>
+
 static WORD *mVgaMemory = NULL_PTR;
 
 static BYTE mCursorX = 0;
@@ -111,10 +113,66 @@ VOID VgaPrintStringC(const CHAR *string, DWORD count)
     VgaSetCursorPosition(mCursorX, mCursorY);
 }
 
-VOID VgaPrintString(const CHAR *string)
+VOID VgaPrintString(const CHAR *string, ...)
 {
-    DWORD length = StringLength(string);
-    VgaPrintStringC(string, length);
+    va_list args;
+    va_start(args, string);
+
+    while (*string != '\0')
+    {
+        if (*string == '%')
+        {
+            BYTE fmtSize = 0;
+            
+            string++;
+
+            if (*string >= '0' || *string <= '9')
+            {
+                while (*string >= '0' && *string <= '9')
+                {
+                    fmtSize = (fmtSize * 10) + (*string - '0');
+                    string++;
+                }
+            }
+
+            switch (*string)
+            {
+            case 'c':
+            {
+                CHAR c = (CHAR)va_arg(args, DWORD);
+                VgaPutChar(c);
+                break;
+            }
+            case 's':
+            {
+                const CHAR *str = va_arg(args, const CHAR *);
+                
+                VgaPrintStringC(str, StringLength(str));
+
+                break;
+            }
+            case 'x':
+            {
+                DWORD value = va_arg(args, DWORD);
+                CHAR *hexStr = DwordToHexString(value, fmtSize);
+                VgaPrintStringC(hexStr, StringLength(hexStr));
+                break;
+            }
+            default:
+            {
+                VgaPutChar(*string);
+                break;
+            }
+            }
+        }
+        else
+        {
+            VgaPutChar(*string);
+        }
+        string++;
+    }
+
+    va_end(args);
 }
 
 VOID VgaScroll()

@@ -42,6 +42,6 @@ VOID VgaSetCursorEnabled(BOOL enabled);
 VOID VgaPutCharAt(CHAR character, BYTE x, BYTE y);
 VOID VgaPutChar(CHAR character);
 VOID VgaPrintStringC(const CHAR *string, DWORD count);
-VOID VgaPrintString(const CHAR *string);
+VOID VgaPrintString(const CHAR *string, ...);
 
 VOID VgaScroll();
