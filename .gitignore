@@ -5,8 +5,8 @@
 
 .vscode/
 
-Bootloaders/Bios/Bin/
-Bootloaders/Objs/
+Bootloaders/BIOS/Bin/
+Bootloaders/BIOS/Objs/
 
 Kernel/Bin/
 Kernel/Objs/

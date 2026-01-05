@@ -10,12 +10,12 @@ typedef signed short        I16;
 typedef signed int          I32;
 typedef signed long long    I64;
 
-typedef signed char  CHAR;
-typedef signed short W_CHAR;
+typedef char  CHAR;
+typedef short W_CHAR;
 
 typedef void VOID;
 
-typedef I32 BOOLEAN;
+typedef I32 BOOL;
 
 #define true 1
 #define false 0
