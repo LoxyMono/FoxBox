@@ -1,0 +1,12 @@
+*.bin
+*.mem
+*.img
+*.o
+
+.vscode/
+
+Bootloaders/Bios/Bin/
+Bootloaders/Objs/
+
+Kernel/Bin/
+Kernel/Objs/
