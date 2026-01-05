@@ -2,6 +2,7 @@
 *.mem
 *.img
 *.o
+*.log
 
 .vscode/
 
@@ -10,3 +11,5 @@ Bootloaders/BIOS/Objs/
 
 Kernel/Bin/
 Kernel/Objs/
+
+Logs/

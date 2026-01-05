@@ -79,6 +79,10 @@ VOID VgaPutChar(CHAR character)
     {
         mCursorX = 0;
     }
+    else if (character == '\t')
+    {
+        mCursorX += 4;
+    }
     else
     {
         VgaPutCharAt(character, mCursorX, mCursorY);
