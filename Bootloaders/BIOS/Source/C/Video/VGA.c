@@ -4,7 +4,7 @@ static WORD *mVgaMemory = NULL_PTR;
 
 static BYTE mCursorX = 0;
 static BYTE mCursorY = 0;
-static BYTE mCurrentColor = VGA_COLOR_LIGHT_GREY | (VGA_COLOR_BLACK << 4);
+static BYTE mCurrentColor = VGA_COLOR_LIGHTGREY | (VGA_COLOR_BLACK << 4);
 
 VOID VgaInit()
 {
@@ -26,7 +26,7 @@ VOID VgaClear()
 
 VOID VgaResetColor()
 {
-    VgaSetColor(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+    VgaSetColor(VGA_COLOR_LIGHTGREY, VGA_COLOR_BLACK);
 }
 
 VOID VgaSetColor(BYTE foreground, BYTE background)
@@ -78,6 +78,10 @@ VOID VgaPutChar(CHAR character)
     else if (character == '\r')
     {
         mCursorX = 0;
+    }
+    else if (character == '\t')
+    {
+        mCursorX += 4;
     }
     else
     {

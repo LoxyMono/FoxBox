@@ -2,6 +2,7 @@
 
 #include <BIOS.h>
 
+#include <IO/Disk.h>
 #include <IO/Ports.h>
 
 #include <Utils/String.h>
@@ -12,5 +13,9 @@ VOID Main()
 {
     VgaInit();
 
-    VgaPrintString("Hello from FoxBox!\r\n");
+    VgaSetColor(VGA_COLOR_ORANGE, VGA_COLOR_BLACK);
+    VgaPrintString("FoxBox");
+    VgaResetColor();
+    VgaPrintString(" x86 BIOS\r\n");
+    VgaPrintString("Compiled on " __DATE__ " at " __TIME__ "\r\n\r\n");
 }
