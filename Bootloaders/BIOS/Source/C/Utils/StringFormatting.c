@@ -37,3 +37,42 @@ CHAR *DwordToHexString(DWORD value, BYTE count)
     FormatBuffer[count] = '\0';
     return FormatBuffer;
 }
+
+CHAR *DwordToDecimalString(DWORD value, BYTE count, BOOL isSigned)
+{
+    StringSet(FormatBuffer, 0x00, 64);
+    I32 i = 0;
+
+    BOOL negative = false;
+    if (isSigned && ((I32)value) < 0)
+    {
+        negative = true;
+        value = (DWORD)(-((I32)value));
+    }
+
+    do
+    {
+        FormatBuffer[i++] = (CHAR)((value % 10) + '0');
+        value /= 10;
+    } while (value > 0);
+
+    if (negative)
+    {
+        FormatBuffer[i++] = '-';
+    }
+    while (i < count)
+    {
+        FormatBuffer[i++] = '0';
+    }
+
+    FormatBuffer[i] = '\0';
+
+    for (I32 j = 0; j < i / 2; j++)
+    {
+        CHAR temp = FormatBuffer[j];
+        FormatBuffer[j] = FormatBuffer[i - j - 1];
+        FormatBuffer[i - j - 1] = temp;
+    }
+    
+    return FormatBuffer;
+}
