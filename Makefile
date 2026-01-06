@@ -26,7 +26,6 @@ $(TARGET):
 	@mcopy -i $@ Bootloaders/BIOS/Bin/Startup.bin ::
 	@mmd -i $@ Kernel Modules
 	@mcopy -i $@ Kernel/Bin/FoxKrnl ::
-	@mcopy -i $@ -s BootFiles/* ::
 
 clean:
 	@cd Bootloaders/BIOS && make clean
