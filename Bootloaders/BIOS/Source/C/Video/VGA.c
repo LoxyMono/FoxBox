@@ -101,6 +101,8 @@ VOID VgaPutChar(CHAR character)
         VgaScroll();
         mCursorY = VGA_HEIGHT - 1;
     }
+
+    VgaSetCursorPosition(mCursorX, mCursorY);
 }
 
 VOID VgaPrintStringC(const CHAR *string, DWORD count)
@@ -109,8 +111,6 @@ VOID VgaPrintStringC(const CHAR *string, DWORD count)
     {
         VgaPutChar(string[i]);
     }
-
-    VgaSetCursorPosition(mCursorX, mCursorY);
 }
 
 VOID VgaPrintString(const CHAR *string, ...)
@@ -156,6 +156,20 @@ VOID VgaPrintString(const CHAR *string, ...)
                 DWORD value = va_arg(args, DWORD);
                 CHAR *hexStr = DwordToHexString(value, fmtSize);
                 VgaPrintStringC(hexStr, StringLength(hexStr));
+                break;
+            }
+            case 'd':
+            {
+                I32 value = va_arg(args, I32);
+                CHAR *decStr = DwordToDecimalString(value, fmtSize, true);
+                VgaPrintStringC(decStr, StringLength(decStr));
+                break;
+            }
+            case 'u':
+            {
+                DWORD value = va_arg(args, DWORD);
+                CHAR *decStr = DwordToDecimalString((DWORD)value, fmtSize, false);
+                VgaPrintStringC(decStr, StringLength(decStr));
                 break;
             }
             default:
