@@ -5,6 +5,7 @@
 #include <IO/Disk.h>
 #include <IO/Ports.h>
 
+#include <Memory/Allocate.h>
 #include <Memory/MemoryMap.h>
 
 #include <Utils/String.h>
@@ -21,20 +22,27 @@ VOID Main()
     VgaPrintString(" x86 BIOS\r\n");
     VgaPrintString("Compiled on " __DATE__ " at " __TIME__ "\r\n\r\n");
 
-    VgaPrintString("\t\tInitializing loader");
+    VgaSetColor(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+    VgaPrintString("Beginning loader initialization\r\n\n");
+    VgaResetColor();
     
     DWORD entryCount = 0;
     MEMORY_MAP_ENTRY *memoryMaps = MemoryMapLoad(&entryCount);
 
+    DWORD bestMap = 0;
+
     for (DWORD i = 0; i < entryCount; i++)
     {
         MEMORY_MAP_ENTRY *entry = &memoryMaps[i];
-        VgaPrintString("\r\nMemory Map Entry %x: Base=0x%8x_%8x Length=0x%8x_%8x Type=%x",
-            i,
-            entry->baseHigh,
-            entry->baseLow,
-            entry->lengthHigh,
-            entry->lengthLow,
-            entry->type);
+        if (entry->type == MEMORY_MAP_TYPE_AVAILABLE &&
+            (entry->lengthHigh > memoryMaps[bestMap].lengthHigh ||
+            (entry->lengthHigh == memoryMaps[bestMap].lengthHigh &&
+             entry->lengthLow > memoryMaps[bestMap].lengthLow)) &&
+            (entry->lengthHigh != 0 || entry->lengthLow >= 0x100000))
+        {
+            bestMap = i;
+        }
     }
+
+    AllocateInit(&memoryMaps[bestMap]);
 }
