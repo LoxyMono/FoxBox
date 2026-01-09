@@ -43,10 +43,10 @@ CHAR *DwordToDecimalString(DWORD value, BYTE count, BOOL isSigned)
     StringSet(FormatBuffer, 0x00, 64);
     I32 i = 0;
 
-    BOOL negative = false;
+    BOOL negative = FALSE;
     if (isSigned && ((I32)value) < 0)
     {
-        negative = true;
+        negative = TRUE;
         value = (DWORD)(-((I32)value));
     }
 

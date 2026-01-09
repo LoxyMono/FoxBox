@@ -2,7 +2,7 @@ TARGET := FoxBox.img
 
 EMULATOR := qemu-system-x86_64
 EMUARGS  := -monitor stdio -m 4G \
-			-serial file:Logs/Serial.log -debugcon file:Logs/Debug.log -drive file=$(TARGET),format=raw,if=ide -d int -D Logs/QEMU.log
+			-serial file:Logs/Serial.log -debugcon file:Logs/Debug.log -drive file=$(TARGET),format=raw,if=ide -d int -D Logs/QEMU.log -no-reboot -no-shutdown
 
 .PHONY: default $(TARGET)
 
@@ -25,7 +25,7 @@ $(TARGET):
 	@dd if=Bootloaders/BIOS/Bin/VBR.bin of=$@ conv=notrunc bs=512 count=3 seek=2 skip=1
 	@mcopy -i $@ Bootloaders/BIOS/Bin/Startup.bin ::
 	@mmd -i $@ Kernel Modules
-	@mcopy -i $@ Kernel/Bin/FoxKrnl ::
+	@mcopy -i $@ Kernel/Bin/FoxKrnl ::Kernel/FoxKrnl
 
 clean:
 	@cd Bootloaders/BIOS && make clean

@@ -10,34 +10,59 @@ static BYTE mCurrentColor = VGA_COLOR_LIGHTGREY | (VGA_COLOR_BLACK << 4);
 
 VOID VgaInit()
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     mVgaMemory = (WORD *)VGA_MEMORY_ADDRESS;
     VgaClear();
 }
 
 VOID VgaClear()
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     WORD blank = (mCurrentColor << 8) | '\0';
     for (DWORD i = 0; i < VGA_WIDTH * VGA_HEIGHT; i++)
     {
         mVgaMemory[i] = blank;
     }
 
-    VgaSetCursorEnabled(true);
+    VgaSetCursorEnabled(TRUE);
     VgaSetCursorPosition(0, 0);
 }
 
 VOID VgaResetColor()
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     VgaSetColor(VGA_COLOR_LIGHTGREY, VGA_COLOR_BLACK);
 }
 
 VOID VgaSetColor(BYTE foreground, BYTE background)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     mCurrentColor = foreground | (background << 4);
 }
 
 VOID VgaSetCursorPosition(BYTE x, BYTE y)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     mCursorX = x;
     mCursorY = y;
 
@@ -51,6 +76,11 @@ VOID VgaSetCursorPosition(BYTE x, BYTE y)
 
 VOID VgaSetCursorEnabled(BOOL enabled)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     if (enabled)
     {
         OutByte(0x3D4, 0x0A);
@@ -67,12 +97,22 @@ VOID VgaSetCursorEnabled(BOOL enabled)
 
 VOID VgaPutCharAt(CHAR character, BYTE x, BYTE y)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     WORD entry = (WORD)character | (mCurrentColor << 8);
     mVgaMemory[(y * VGA_WIDTH) + x] = entry;
 }
 
 VOID VgaPutChar(CHAR character)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     if (character == '\n')
     {
         mCursorY++;
@@ -107,6 +147,11 @@ VOID VgaPutChar(CHAR character)
 
 VOID VgaPrintStringC(const CHAR *string, DWORD count)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     for (DWORD i = 0; i < count; i++)
     {
         VgaPutChar(string[i]);
@@ -115,6 +160,11 @@ VOID VgaPrintStringC(const CHAR *string, DWORD count)
 
 VOID VgaPrintString(const CHAR *string, ...)
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     va_list args;
     va_start(args, string);
 
@@ -161,14 +211,14 @@ VOID VgaPrintString(const CHAR *string, ...)
             case 'd':
             {
                 I32 value = va_arg(args, I32);
-                CHAR *decStr = DwordToDecimalString(value, fmtSize, true);
+                CHAR *decStr = DwordToDecimalString(value, fmtSize, TRUE);
                 VgaPrintStringC(decStr, StringLength(decStr));
                 break;
             }
             case 'u':
             {
                 DWORD value = va_arg(args, DWORD);
-                CHAR *decStr = DwordToDecimalString((DWORD)value, fmtSize, false);
+                CHAR *decStr = DwordToDecimalString((DWORD)value, fmtSize, FALSE);
                 VgaPrintStringC(decStr, StringLength(decStr));
                 break;
             }
@@ -191,6 +241,11 @@ VOID VgaPrintString(const CHAR *string, ...)
 
 VOID VgaScroll()
 {
+
+#ifdef SILENT
+    return;
+#endif
+
     for (DWORD y = 1; y < VGA_HEIGHT; y++)
     {
         for (DWORD x = 0; x < VGA_WIDTH; x++)

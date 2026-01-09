@@ -36,9 +36,29 @@ BOOL StringCompare(const CHAR *first, const CHAR *second, DWORD count)
     {
         if (first[i] != second[i])
         {
-            return false;
+            return FALSE;
         }
     }
-    
-    return true;
+
+    return TRUE;
+}
+
+VOID CopyStringUntil(CHAR *dest, const CHAR *src, CHAR stopChar)
+{
+    DWORD i = 0;
+    while (src[i] != stopChar && src[i] != '\0')
+    {
+        dest[i] = src[i];
+        i++;
+    }
+}
+
+DWORD CharsUntilDelimiter(const CHAR *string, CHAR stopChar)
+{
+    DWORD count = 0;
+    while (string[count] != stopChar && string[count] != '\0')
+    {
+        count++;
+    }
+    return count;
 }

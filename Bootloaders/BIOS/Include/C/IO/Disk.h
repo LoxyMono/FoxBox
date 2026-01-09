@@ -4,6 +4,8 @@
 
 #include <BIOS.h>
 
+#include <Utils/String.h>
+
 typedef struct DISK_PACKET
 {
     BYTE  size;

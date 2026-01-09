@@ -4,7 +4,8 @@ LD  := i686-elf-ld
 
 CC_FLAGS := -Wall -Wextra \
 			-ffreestanding \
-			-m32 -IInclude/C -nostdlib -O0
+			-m32 -IInclude/C -nostdlib -O0 \
+			#-DSILENT
 
 LD_FLAGS := -T Config/Linker.ld -m elf_i386
 

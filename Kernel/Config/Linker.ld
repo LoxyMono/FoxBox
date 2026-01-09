@@ -1,8 +1,8 @@
 ENTRY(FoxBoxMain)
-OUTPUT_FORMAT(binary)
+OUTPUT_FORMAT(elf32-i386)
 SECTIONS
 {
-    . = 0xF0000000;
+    . = 0xFF800000;
 
     .text BLOCK(4K) : ALIGN(4K)
     {
