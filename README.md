@@ -9,6 +9,7 @@ Submitting issues is encouraged, but please keep the above in mind, and **dont b
 ## Implemented features
 
 ### BIOS bootloader
+- [ ] Barebones implementation
 - [x] Simple memory management
 - [ ] Kernel loading
 - [ ] Paging support
