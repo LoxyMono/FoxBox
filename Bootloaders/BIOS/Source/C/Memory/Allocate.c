@@ -30,15 +30,20 @@ VOID AllocateInit(MEMORY_MAP_ENTRY *memoryMap)
 
     while (currentAddress + 0x1000 < memoryMap->baseLow + memoryMap->lengthLow)
     {
-        StringCopy("FREE", (CHAR *)currentAddress, 4);
+        StringCopy((CHAR *)currentAddress, "FREE", 4);
         currentAddress += 0x1000;
         mPageCount++;
     }
 
     mAllocationMap = AllocatePages(4);
     mAllocationMapSize = (4 * 4096) / sizeof(ALLOCATION);
+    mPageCount -= 4;
+    mPages += 4;
 
     VgaPrintString("\rDONE\r\n");
+
+    VgaPrintString("\t\tAddress of allocation array: 0x%8x\r\n", (DWORD)mAllocationMap);
+    VgaPrintString("\t\tAddress of page array:       0x%8x\r\n", (DWORD)mPages);
 
     VgaPrintString("\t\t%uMB of available memory\r\n", (mPageCount * 4096) / (1024 * 1024));
 }
@@ -138,6 +143,6 @@ VOID ReleasePages(VOID *ptr, DWORD count)
         PAGE *p = ptr + (i * sizeof(PAGE));
 
         StringSet(p, 0x00, 4096);
-        StringCopy("FREE", p->data, 4);
+        StringCopy(p->data, "FREE", 4);
     }
 }
